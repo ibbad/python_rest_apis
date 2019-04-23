@@ -1,0 +1,123 @@
+swagger: "2.0"
+info:
+  description: This is swagger file that goes with server code
+  version: "1.0.0"
+  title: Swagger Rest API
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /people:
+    get:
+      operationId: people.read_all
+      tags:
+        - People
+      summary: People data structure supported by server application
+      description: Read the list of people
+      responses:
+        200:
+          description: Successful read people list operation
+          schema:
+            type: array
+            items:
+              properties:
+                fname:
+                  type: "string"
+                lname:
+                  type: "string"
+                timestamp:
+                  type: "string"
+
+    post:
+      operationId: people.create
+      tags:
+        - People
+      summary: Create a person and add it to people list
+      description: Create new person in people list
+      parameters:
+        - name: person
+          in: body
+          description: Person to create
+          required: True
+          schema:
+            type: object
+            properties:
+              fname:
+                type: string
+                description: First name of person to create
+              lname:
+                type: string
+                description: Last name of person to create
+      responses:
+        201:
+          description: Successfully created person in list
+
+  /people/{lname}:
+      get:
+        operationId: people.read_one
+        tags:
+          - People
+        summary: Rread on person from people list
+        description: Read one person from people list
+        parameters:
+          - name: lname
+            in: path
+            description: Last name of person to get from the list
+            type: string
+            required: True
+        responses:
+          200:
+            description: Successfully read person from people list operation
+            schema:
+              properties:
+                fname:
+                  type: string
+                lname:
+                  type: string
+                timestamp:
+                  type: string
+
+      put:
+        operationId: people.update
+        tags:
+          - People
+        summary: Update a person in people list
+        description: Update a person in people list
+        parameters:
+          - name: lname
+            in: path
+            description: Last name of the person to update in list
+            type: string
+            required: True
+          - name: person
+            in: body
+            schema:
+              type: object
+              properties:
+                fname:
+                  type: string
+                lname:
+                  type: string
+        responses:
+          200:
+            description: successfully updated person in people list
+
+      delete:
+        operationId: people.delete
+        tags:
+          - People
+        summary: Delete a person from the people list
+        description: Delete a person
+        parameters:
+          - name: lname
+            in: path
+            type: string
+            required: True
+        responses:
+          200:
+            description: Successfully deleted a person from people list
